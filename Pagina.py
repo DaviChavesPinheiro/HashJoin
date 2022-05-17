@@ -2,9 +2,13 @@ from Tupla import Tupla
 import os
 
 class Pagina:
+    instances = 0
     def __init__(self):
         self.tuplas = []
         self.qtd_tuplas_ocup = 0
+        
+        # Incrimenta o número de instancias globais
+        Pagina.instances += 1
 
     def add(self, tupla):
         self.tuplas.append(Tupla(tupla))
@@ -23,3 +27,7 @@ class Pagina:
         with open(path, 'r') as f:
             # Formata cada linha do txt para uma Tupla
             self.tuplas = list(map(lambda line: Tupla(line.strip().split(',')), f.readlines()))
+
+    def __del__(self):
+        # Decrementa o número de instancias globais
+        Pagina.instances -= 1

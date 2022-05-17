@@ -35,10 +35,11 @@ class Operador:
                 col = tupla.cols[self.table1.esquema.nome_para_indice[self.col1]]
                
                 hashEstatico.add(col, ",".join(tupla.cols)) 
+            # Referencia da pagina deletada
+            del pagina
         
         # Página que vai armazenar o join
         join_pagina = Pagina()
-
         # Para cada página da tabela 2
         for i in range(self.table2.pag_count):
             # Leia uma pagina
@@ -49,21 +50,31 @@ class Operador:
                 # Pega a coluna que vamos usar para procurar no indice
                 col = tupla2.cols[self.table2.esquema.nome_para_indice[self.col2]]
                 
+                # TODO: iterador?
                 tuplas1 = hashEstatico.find(col)
                 for tupla1 in tuplas1:
                     # Se a pagina de join esta cheia
                     if(join_pagina.qtd_tuplas_ocup == 12):
-                        # Escrevemos o join em um txt e limpamos a pagina de join
+                        # Escrevemos o join em um txt
                         join_pagina.write2("./join/{}-{}.txt".format(prefix, pag_count))
                         pag_count += 1
+
+                        # Referencia da pagina deletada
+                        del join_pagina
+                        # Nova página criada
                         join_pagina = Pagina()
                     join_pagina.add(tupla1 + "," + ",".join(tupla2.cols))
                 
-                # Caso a ultima pagina possua dados (não salvos no disco, ainda)
-                if(join_pagina.qtd_tuplas_ocup != 0): 
-                    join_pagina.write2("./join/{}-{}.txt".format(prefix, pag_count))
-                    pag_count += 1
+            # Caso a ultima pagina possua dados (não salvos no disco, ainda)
+            if(join_pagina.qtd_tuplas_ocup != 0): 
+                join_pagina.write2("./join/{}-{}.txt".format(prefix, pag_count))
+                pag_count += 1
 
-                    
+            # Referencia da página deletada        
+            del pagina        
+        # Referencia do join deletada
+        del join_pagina
+        return prefix
+            
 
 

@@ -15,10 +15,9 @@ def main():
     # op = Operador(vinho, pais, "pais_producao_id", "pais_id")
     op = Operador(vinho, uva, "uva_id", "uva_id")
 
-    op.executar() # Realiza a operacao desejada
+    join_prefix = op.executar() # Realiza a operacao desejada
     return 
     # TODO: TENTAR UTIZAR APENAS UMA CLASSE PAGINA DE LOADING??? COLOCAR UMA VARIAVEL ESTATICA PARA CONTAR QUANTAS PAGINAS FORAM CARREGADAS
-    # TODO: REFATORAR??
     # TODO: FAZER numPagsGeradas numIOExecutados numTuplasGeradas
     # TODO: SALVAR NO CSV
     # TODO: CONFIRIR SE SOMENTE NO MAXIMO 3 PAGINAS ESTÃO SENDO CARREGAS NA MEMORIA POR VEZ
