@@ -1,5 +1,6 @@
 import uuid
 import os
+import csv
 from HashEstatico import HashEstatico
 from Pagina import Pagina
 
@@ -49,7 +50,7 @@ class Operador:
             for tupla2 in pagina.tuplas:
                 # Pega a coluna que vamos usar para procurar no indice
                 col = tupla2.cols[self.table2.esquema.nome_para_indice[self.col2]]
-                
+            
                 # TODO: iterador?
                 tuplas1 = hashEstatico.find(col)
                 for tupla1 in tuplas1:
@@ -76,5 +77,27 @@ class Operador:
         del join_pagina
         return prefix
             
+    def salvarTuplasGeradas(self, prefix):
+        path = "{}_{} X {}_{} ({}).csv".format(self.table1.table_name, self.col1, self.table2.table_name, self.col2, prefix)
+
+        with open(path, "w") as f:
+            writer = csv.writer(f)
+            # Escreve o header do csv
+            writer.writerow(self.table1.header + self.table2.header)
+            
+            # Percorre todas as páginas de join
+            if (os.path.exists("./join")):
+                for page_name in os.listdir("./join"):
+                    # Caso o arquivo comece com o prefixo
+                    if(page_name.startswith(prefix)):
+                        pagina = Pagina()
+                        pagina.read("./join/{}".format(page_name))
+
+                        writer.writerows(list(map(lambda tupla: tupla.cols, pagina.tuplas)))
+                        del pagina
+
+
+            
+
 
 

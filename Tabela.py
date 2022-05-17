@@ -9,7 +9,7 @@ class Tabela:
         self.csv_path = csv_path
         # Quantidade de paginas na tabela
         self.pag_count = 0
-
+        
         # Criamos o diretorio das paginas dessa tabela
         if(not os.path.exists("./" + self.table_name)):
             os.mkdir("./" + self.table_name)
@@ -23,8 +23,8 @@ class Tabela:
             reader = csv.reader(csvfile)
 
             # Analisa o header e cria o esquema
-            header = next(reader)
-            self.esquema = Esquema(len(header), dict(list(zip(header, range(len(header))))))
+            self.header = next(reader)
+            self.esquema = Esquema(len(self.header), dict(list(zip(self.header, range(len(self.header))))))
             
             # Carrega e salva os dados pagina por pagina
             pagina = Pagina()

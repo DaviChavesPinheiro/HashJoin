@@ -25,7 +25,7 @@ def main():
     print("#IOss:", op.numIOExecutados()) # Retorna a quantidade de IOs geradas pela operacao
     print("#Tups:", op.numTuplasGeradas()) # Retorna a quantidade de tuplas geradas pela operacao
     
-    op.salvarTuplasGeradas("selecao_vinho_ano_colheita_1990.csv") # Retorna as tuplas geradas pela operacao e salva em um csv
+    op.salvarTuplasGeradas() # Retorna as tuplas geradas pela operacao e salva em um csv
 
 # Limpa alguns diretorios antes de inicializar o programa
 def limpa_pastas():
