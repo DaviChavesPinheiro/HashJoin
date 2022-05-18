@@ -19,7 +19,6 @@ def main():
     return 
     # TODO: TENTAR UTIZAR APENAS UMA CLASSE PAGINA DE LOADING??? COLOCAR UMA VARIAVEL ESTATICA PARA CONTAR QUANTAS PAGINAS FORAM CARREGADAS
     # TODO: FAZER numPagsGeradas numIOExecutados numTuplasGeradas
-    # TODO: SALVAR NO CSV
     # TODO: CONFIRIR SE SOMENTE NO MAXIMO 3 PAGINAS ESTÃO SENDO CARREGAS NA MEMORIA POR VEZ
     print("#Pags:", op.numPagsGeradas()) # Retorna a quantidade de paginas geradas pela operacao
     print("#IOss:", op.numIOExecutados()) # Retorna a quantidade de IOs geradas pela operacao

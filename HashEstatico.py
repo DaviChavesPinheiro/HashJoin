@@ -58,9 +58,6 @@ class HashEstatico:
     def find(self, column):
         hs = self.HASH(column)
         
-        # Tuplas que atendem ao predicado de igualde
-        tuplas = []
-
         # Checa todas as páginas
         i = 0
         while (True):
@@ -68,9 +65,9 @@ class HashEstatico:
             if(os.path.exists(os.path.join(self.dir, "{}-{}.txt".format(hs, i)))):
                 # Leia a página e filtre só as entradas que atendem ao predicado
                 Page.read(os.path.join(self.dir, "{}-{}.txt".format(hs, i)))
-                tuplas.extend(list(map(lambda entry: entry.strip().split(',', 1)[1], filter(lambda line: line.split(',')[0] == str(column), Page.data))))
+                yield list(map(lambda entry: entry.strip().split(',', 1)[1], filter(lambda line: line.split(',')[0] == str(column), Page.data)))
             else:
                 # Já checamos todas as páginas
                 break
             i += 1
-        return tuplas 
+        return None 

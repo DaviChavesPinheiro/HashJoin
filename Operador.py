@@ -40,31 +40,34 @@ class Operador:
             del pagina
         
         # Página que vai armazenar o join
-        join_pagina = Pagina()
+        join_pagina = Pagina()                                                                                                          # [PÁGINA NA MEMÓRIA]
         # Para cada página da tabela 2
         for i in range(self.table2.pag_count):
             # Leia uma pagina
-            pagina = Pagina()
+            pagina = Pagina()                                                                                                           # [PÁGINA NA MEMÓRIA]
             pagina.read("{}/{}.txt".format(self.table2.table_name, i))
             
             for tupla2 in pagina.tuplas:
                 # Pega a coluna que vamos usar para procurar no indice
                 col = tupla2.cols[self.table2.esquema.nome_para_indice[self.col2]]
             
-                # TODO: iterador?
-                tuplas1 = hashEstatico.find(col)
-                for tupla1 in tuplas1:
-                    # Se a pagina de join esta cheia
-                    if(join_pagina.qtd_tuplas_ocup == 12):
-                        # Escrevemos o join em um txt
-                        join_pagina.write2("./join/{}-{}.txt".format(prefix, pag_count))
-                        pag_count += 1
+                # Bucket é um iterador. Ele NÃO carrega todas as páginas na memória de uma vez.
+                bucket = hashEstatico.find(col)
+                
+                # Uma página é carregada por vez aqui. Isto é, tuplas1 é uma REFERÊNCIA a uma lista de tuplas (max. 12 tuplas por página) 
+                for tuplas1 in bucket:                                                                                                  # [PÁGINA NA MEMÓRIA]
+                    for tupla1 in tuplas1:
+                        # Se a pagina de join esta cheia
+                        if(join_pagina.qtd_tuplas_ocup == 12):
+                            # Escrevemos o join em um txt
+                            join_pagina.write2("./join/{}-{}.txt".format(prefix, pag_count))
+                            pag_count += 1
 
-                        # Referencia da pagina deletada
-                        del join_pagina
-                        # Nova página criada
-                        join_pagina = Pagina()
-                    join_pagina.add(tupla1 + "," + ",".join(tupla2.cols))
+                            # Referencia da pagina deletada
+                            del join_pagina
+                            # Nova página criada
+                            join_pagina = Pagina()
+                        join_pagina.add(tupla1 + "," + ",".join(tupla2.cols))
                 
             # Caso a ultima pagina possua dados (não salvos no disco, ainda)
             if(join_pagina.qtd_tuplas_ocup != 0): 
