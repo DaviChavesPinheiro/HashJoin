@@ -61,7 +61,7 @@ class Operador:
             
                 # Bucket é um iterador. Ele NÃO carrega todas as páginas na memória de uma vez.
                 bucket = hashEstatico.find(col)
-                
+                 
                 # Uma página é carregada por vez aqui. Isto é, tuplas1 é uma REFERÊNCIA a uma lista de tuplas (max. 12 tuplas por página) 
                 for tuplas1 in bucket:                                                                                                  # [PÁGINA NA MEMÓRIA]
                     for tupla1 in tuplas1:
@@ -80,13 +80,13 @@ class Operador:
                             self.numTuplasGeradas += 12
                         join_pagina.add(tupla1 + "," + ",".join(tupla2.cols))
                 
-            # Caso a ultima pagina possua dados (não salvos no disco, ainda)
-            if(join_pagina.qtd_tuplas_ocup != 0): 
-                join_pagina.write2("./join/{}-{}.txt".format(prefix, pag_count))
-                self.numOutputExecutados += 1
-                self.numTuplasGeradas += join_pagina.qtd_tuplas_ocup
-                self.numPagsGeradas += 1
-                pag_count += 1
+        # Caso a ultima pagina possua dados (não salvos no disco, ainda)
+        if(join_pagina.qtd_tuplas_ocup != 0): 
+            join_pagina.write2("./join/{}-{}.txt".format(prefix, pag_count))
+            self.numOutputExecutados += 1
+            self.numTuplasGeradas += join_pagina.qtd_tuplas_ocup
+            self.numPagsGeradas += 1
+            pag_count += 1
 
             # Referencia da página deletada        
             del pagina        
