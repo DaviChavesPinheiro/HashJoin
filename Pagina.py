@@ -7,7 +7,7 @@ class Pagina:
         self.tuplas = []
         self.qtd_tuplas_ocup = 0
         
-        # Incrimenta o número de instancias globais
+        # Incrementa o número de instancias globais
         Pagina.instances += 1
 
     def add(self, tupla):

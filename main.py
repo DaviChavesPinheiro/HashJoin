@@ -16,15 +16,12 @@ def main():
     op = Operador(vinho, uva, "uva_id", "uva_id")
 
     join_prefix = op.executar() # Realiza a operacao desejada
-    return 
-    # TODO: TENTAR UTIZAR APENAS UMA CLASSE PAGINA DE LOADING??? COLOCAR UMA VARIAVEL ESTATICA PARA CONTAR QUANTAS PAGINAS FORAM CARREGADAS
-    # TODO: FAZER numPagsGeradas numIOExecutados numTuplasGeradas
-    # TODO: CONFIRIR SE SOMENTE NO MAXIMO 3 PAGINAS ESTÃO SENDO CARREGAS NA MEMORIA POR VEZ
-    print("#Pags:", op.numPagsGeradas()) # Retorna a quantidade de paginas geradas pela operacao
-    print("#IOss:", op.numIOExecutados()) # Retorna a quantidade de IOs geradas pela operacao
-    print("#Tups:", op.numTuplasGeradas()) # Retorna a quantidade de tuplas geradas pela operacao
-    
-    op.salvarTuplasGeradas() # Retorna as tuplas geradas pela operacao e salva em um csv
+
+    print("#Pags:", op.numPagsGeradas) # Retorna a quantidade de paginas geradas pela operacao
+    print("#Tups:", op.numTuplasGeradas) # Retorna a quantidade de tuplas geradas pela operacao
+    print("#IOss:", op.numIOExecutados) # Retorna a quantidade de IOs geradas pela operacao
+
+    op.salvarTuplasGeradas(join_prefix) # Retorna as tuplas geradas pela operacao e salva em um csv
 
 # Limpa alguns diretorios antes de inicializar o programa
 def limpa_pastas():

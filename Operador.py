@@ -11,6 +11,12 @@ class Operador:
         self.col1 = col1
         self.col2 = col2
 
+        self.numPagsGeradas = 0
+        self.numTuplasGeradas = 0
+        self.numInputExecutados = 0
+        self.numOutputExecutados = 0
+        self.numIOExecutados = 0
+
         # Se a pasta dos joins ainda não existir, ela é criada
         if (not os.path.exists("./join")):
             os.mkdir("./join")
@@ -29,6 +35,7 @@ class Operador:
             # Leia uma pagina
             pagina = Pagina()
             pagina.read("{}/{}.txt".format(self.table1.table_name, i))
+            self.numInputExecutados += 1
             
             # Adiciona cada tupla no indice
             for tupla in pagina.tuplas:
@@ -46,6 +53,7 @@ class Operador:
             # Leia uma pagina
             pagina = Pagina()                                                                                                           # [PÁGINA NA MEMÓRIA]
             pagina.read("{}/{}.txt".format(self.table2.table_name, i))
+            self.numInputExecutados += 1
             
             for tupla2 in pagina.tuplas:
                 # Pega a coluna que vamos usar para procurar no indice
@@ -61,23 +69,35 @@ class Operador:
                         if(join_pagina.qtd_tuplas_ocup == 12):
                             # Escrevemos o join em um txt
                             join_pagina.write2("./join/{}-{}.txt".format(prefix, pag_count))
+                            self.numOutputExecutados += 1
+                            self.numPagsGeradas += 1
                             pag_count += 1
 
                             # Referencia da pagina deletada
                             del join_pagina
                             # Nova página criada
                             join_pagina = Pagina()
+                            self.numTuplasGeradas += 12
                         join_pagina.add(tupla1 + "," + ",".join(tupla2.cols))
                 
             # Caso a ultima pagina possua dados (não salvos no disco, ainda)
             if(join_pagina.qtd_tuplas_ocup != 0): 
                 join_pagina.write2("./join/{}-{}.txt".format(prefix, pag_count))
+                self.numOutputExecutados += 1
+                self.numTuplasGeradas += join_pagina.qtd_tuplas_ocup
+                self.numPagsGeradas += 1
                 pag_count += 1
 
             # Referencia da página deletada        
             del pagina        
         # Referencia do join deletada
         del join_pagina
+
+        print("Hash Input: ", hashEstatico.numInputExecutados)
+        print("Hash Output: ", hashEstatico.numOutputExecutados)
+        print("Op Input: ", self.numInputExecutados)
+        print("Op Out: ", self.numOutputExecutados)
+        self.numIOExecutados = self.numInputExecutados + hashEstatico.numInputExecutados + self.numOutputExecutados + hashEstatico.numOutputExecutados
         return prefix
             
     def salvarTuplasGeradas(self, prefix):
