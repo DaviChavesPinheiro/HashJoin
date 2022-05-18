@@ -34,7 +34,8 @@ class Tabela:
                     # Salvamos a pagina cheia no disco
                     pagina.write("./{}/{}.txt".format(self.table_name, self.pag_count))
                     self.pag_count += 1
-
+                    # Deleta a referencia da página
+                    del pagina
                     # Pegamos uma nova pagina vazia (a antiga é deletada)
                     pagina = Pagina()
                 pagina.add(row)
@@ -42,3 +43,6 @@ class Tabela:
             if(pagina.qtd_tuplas_ocup != 0): 
                 pagina.write("./{}/{}.txt".format(self.table_name, self.pag_count))
                 self.pag_count += 1
+            
+            # Deleta a referencia da página
+            del pagina

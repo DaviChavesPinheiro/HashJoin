@@ -13,6 +13,7 @@ def main():
     pais.carregarDados()
 
     # op = Operador(vinho, pais, "pais_producao_id", "pais_id")
+    # op = Operador(uva, pais, "pais_origem_id", "pais_id")
     op = Operador(vinho, uva, "uva_id", "uva_id")
 
     join_prefix = op.executar() # Realiza a operacao desejada

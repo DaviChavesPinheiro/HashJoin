@@ -37,7 +37,7 @@ class HashEstatico:
 
     def add(self, column, p_registro):
         hs = self.HASH(column)
-        
+
         # Procura uma página no bucket que esteja disponivel. Caso estejam todas cheias, cria uma nova
         i = 0
         while (True):
@@ -48,7 +48,7 @@ class HashEstatico:
                 self.numOutputExecutados += 1
                 break
             else:
-                # Lê a página cadidata
+                # Lê a página candidata
                 Page.read(os.path.join(self.dir, "{}-{}.txt".format(hs, i)))
                 self.numInputExecutados += 1
                 
